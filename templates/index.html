@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Student LaunchPad 🚀</title>
+<link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+
+
+<nav class="nav">
+  <div class="nav-logo">Launch<span>Pad</span></div>
+  <div class="nav-tabs">
+    <button class="tab-btn active" onclick="switchTab('home')" id="tab-home">⚡ Home</button>
+    <button class="tab-btn" onclick="switchTab('notes')" id="tab-notes">📖 Notes AI</button>
+    <button class="tab-btn" onclick="switchTab('resume')" id="tab-resume">📄 Resume ATS</button>
+    <button class="tab-btn" onclick="switchTab('interview')" id="tab-interview">🎙 Interview</button>
+    <button class="tab-btn" onclick="switchTab('roadmap')" id="tab-roadmap">🗺 Roadmap</button>
+  </div>
+  <div class="nav-right">
+    <span class="model-badge">🤖 Gemini 2.0 Flash</span>
+    <div class="api-dot" title="API key loaded from .env"></div>
+  </div>
+</nav>
+
+<main class="main">
+
+  <!-- ── HOME ── -->
+  <section class="section active" id="section-home">
+    <div class="hero">
+      <h1>Student LaunchPad 🚀</h1>
+      <p>Your AI-powered platform — from learning to placement</p>
+    </div>
+    <div class="home-grid">
+      <div class="home-card" onclick="switchTab('notes')">
+        <div class="hc-icon">📖</div>
+        <h3>Notes Explainer</h3>
+        <p>Upload or paste your notes. AI explains in simple terms with quiz and cheatsheet.</p>
+        <span class="hc-tag">Learn smarter</span>
+      </div>
+      <div class="home-card" onclick="switchTab('resume')">
+        <div class="hc-icon">📄</div>
+        <h3>Resume ATS Scorer</h3>
+        <p>Get an ATS compatibility score out of 100 with detailed improvement tips.</p>
+        <span class="hc-tag">Get shortlisted</span>
+      </div>
+      <div class="home-card" onclick="switchTab('interview')">
+        <div class="hc-icon">🎙</div>
+        <h3>Mock Interview</h3>
+        <p>Practice real interview questions for your target role. Get scored feedback.</p>
+        <span class="hc-tag">Ace interviews</span>
+      </div>
+      <div class="home-card" onclick="switchTab('roadmap')">
+        <div class="hc-icon">🗺</div>
+        <h3>Job Roadmap</h3>
+        <p>Choose a career goal. AI builds your personalised step-by-step learning path.</p>
+        <span class="hc-tag">Find your path</span>
+      </div>
+    </div>
+    <div class="info-banner">
+      <span>💡</span>
+      <div>
+        <strong>API key is loaded from your <code>.env</code> file</strong> — no need to enter it manually.
+        Switch the model anytime using the dropdown in the top-right corner.
+      </div>
+    </div>
+  </section>
+
+  <!-- ── NOTES AI ── -->
+  <section class="section" id="section-notes">
+    <div class="section-header">
+      <h2>📖 Notes Explainer</h2>
+      <p>Paste your notes — pick a theme — AI explains in your style</p>
+    </div>
+
+    <div class="card">
+      <div class="upload-row">
+        <button class="btn btn-ghost" onclick="document.getElementById('notes-file').click()">📎 Upload .txt / .md</button>
+        <input type="file" id="notes-file" accept=".txt,.md" style="display:none" onchange="uploadNoteFile(event)" />
+        <span class="hint">or paste below</span>
+      </div>
+      <textarea id="notes-input" placeholder="Paste your lecture notes, textbook content, or any complex topic here...&#10;&#10;Example: 'Quantum entanglement is a phenomenon in quantum mechanics...'" rows="7"></textarea>
+
+      <div class="row-flex" style="margin-top:12px; margin-bottom:18px;">
+        <input type="text" id="notes-level" placeholder="Target level? (e.g. beginner, 10th grade, undergrad)" class="text-input flex-1" />
+      </div>
+
+      <div class="theme-label">🎨 Choose an explanation theme</div>
+      <div class="theme-grid" id="theme-grid">
+
+        <div class="theme-card selected" data-theme="simple" onclick="selectTheme(this)">
+          <div class="theme-icon">💡</div>
+          <div class="theme-name">Simple</div>
+          <div class="theme-desc">Clear bullets &amp; plain English</div>
+        </div>
+
+        <div class="theme-card" data-theme="story" onclick="selectTheme(this)">
+          <div class="theme-icon">📖</div>
+          <div class="theme-name">Story Mode</div>
+          <div class="theme-desc">Explain as an engaging story</div>
+        </div>
+
+        <div class="theme-card" data-theme="flashcard" onclick="selectTheme(this)">
+          <div class="theme-icon">🃏</div>
+          <div class="theme-name">Flashcards</div>
+          <div class="theme-desc">Q&amp;A cards to memorise fast</div>
+        </div>
+
+        <div class="theme-card" data-theme="mindmap" onclick="selectTheme(this)">
+          <div class="theme-icon">🧠</div>
+          <div class="theme-name">Mind Map</div>
+          <div class="theme-desc">Central idea → branches</div>
+        </div>
+
+        <div class="theme-card" data-theme="eli5" onclick="selectTheme(this)">
+          <div class="theme-icon">🧒</div>
+          <div class="theme-name">ELI5</div>
+          <div class="theme-desc">Explain like I am 5 years old</div>
+        </div>
+
+        <div class="theme-card" data-theme="exam" onclick="selectTheme(this)">
+          <div class="theme-icon">🎯</div>
+          <div class="theme-name">Exam Ready</div>
+          <div class="theme-desc">Key points + likely questions</div>
+        </div>
+
+        <div class="theme-card" data-theme="tweet" onclick="selectTheme(this)">
+          <div class="theme-icon">🐦</div>
+          <div class="theme-name">Tweet Thread</div>
+          <div class="theme-desc">Bite-sized numbered tweets</div>
+        </div>
+
+        <div class="theme-card" data-theme="code" onclick="selectTheme(this)">
+          <div class="theme-icon">💻</div>
+          <div class="theme-name">Code + Concept</div>
+          <div class="theme-desc">Tech topics with code examples</div>
+        </div>
+
+      </div>
+
+      <button class="btn btn-primary" onclick="explainNotes()" id="notes-btn" style="width:100%; margin-top:16px; padding:12px;">
+        ✨ Explain with this theme
+      </button>
+    </div>
+
+    <div id="notes-result" style="display:none;">
+      <div class="notes-result-header">
+        <div class="ai-label" id="notes-theme-label">🤖 AI Explanation</div>
+        <div class="theme-badge-active" id="active-theme-badge"></div>
+      </div>
+      <div class="ai-box" id="notes-output"></div>
+      <div class="action-row" style="margin-top:14px;">
+        <button class="btn btn-ghost" onclick="notesFollowUp('Give me 5 quiz questions based on this explanation')">📝 Quiz me</button>
+        <button class="btn btn-ghost" onclick="notesFollowUp('Give me a simple analogy to remember this better')">💡 Analogy</button>
+        <button class="btn btn-ghost" onclick="notesFollowUp('Create a summary cheatsheet in bullet points')">📋 Cheatsheet</button>
+        <button class="btn btn-ghost" onclick="notesFollowUp('What are the top 5 exam questions on this topic?')">🎯 Exam tips</button>
+        <button class="btn btn-ghost" onclick="notesFollowUp('Summarise this in exactly 3 sentences')">✂️ TL;DR</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── RESUME ATS ── -->
+  <section class="section" id="section-resume">
+    <div class="section-header">
+      <h2>📄 Resume ATS Scorer</h2>
+      <p>Paste your resume — get an ATS score and actionable improvements instantly</p>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <div class="card-label">Your Resume</div>
+        <textarea id="resume-input" placeholder="Paste your full resume text here...&#10;&#10;Include: name, contact, skills, experience, education, projects, certifications..." rows="14"></textarea>
+        <button class="btn btn-primary" onclick="scoreResume()" id="resume-btn" style="width:100%;margin-top:12px;">🎯 Analyse Resume</button>
+      </div>
+      <div>
+        <div class="card score-card" id="ats-score-card" style="display:none;">
+          <div class="card-label">ATS Score</div>
+          <div class="score-wrap">
+            <svg class="ring-svg" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="42" fill="none" stroke="#1e1e2e" stroke-width="10"/>
+              <circle id="ring-circle" cx="50" cy="50" r="42" fill="none" stroke="#a78bfa" stroke-width="10"
+                stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="264"
+                transform="rotate(-90 50 50)" style="transition:stroke-dashoffset 1.2s ease;"/>
+              <text x="50" y="56" text-anchor="middle" font-size="22" font-weight="700" fill="#e8e8f0" id="ring-score-text">0</text>
+            </svg>
+            <div class="score-info">
+              <div class="score-verdict" id="score-verdict">Analysing...</div>
+              <div class="score-sub" id="score-sub"></div>
+            </div>
+          </div>
+        </div>
+        <div class="card" id="ats-output-card" style="display:none; margin-top:0;">
+          <div class="ai-label">🤖 Detailed Feedback</div>
+          <div class="ai-box" id="resume-output"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="section-interview">
+    <div class="section-header">
+      <h2>🎙 Mock Interview</h2>
+      <p>AI interviewer asks questions and evaluates your answers in real-time</p>
+    </div>
+
+    <div id="interview-setup" class="card">
+      <div class="card-label">Setup your interview</div>
+      <div class="two-col" style="gap:12px;">
+        <div>
+          <div class="field-label">Target role</div>
+          <input type="text" id="int-role" placeholder="e.g. Python Developer, Data Analyst" class="text-input" style="width:100%;" />
+        </div>
+        <div>
+          <div class="field-label">Experience level</div>
+          <select id="int-level" class="text-input" style="width:100%;cursor:pointer;">
+            <option>Fresher / Entry-level</option>
+            <option>1–2 years experience</option>
+            <option>3–5 years experience</option>
+            <option>Senior (5+ years)</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="startInterview()" id="int-start-btn" style="margin-top:16px;">🎙 Start Interview</button>
+    </div>
+
+    <div id="interview-area" style="display:none;">
+      <div class="chat-window">
+        <div class="chat-messages" id="chat-messages"></div>
+        <div class="chat-bar">
+          <input type="text" class="chat-input" id="chat-input" placeholder="Type your answer and press Enter..." onkeydown="if(event.key==='Enter' && !event.shiftKey){event.preventDefault();sendAnswer();}" />
+          <button class="btn btn-primary" onclick="sendAnswer()" id="send-btn">Send ↩</button>
+          <button class="btn btn-danger" onclick="endInterview()">✕ End</button>
+        </div>
+      </div>
+
+      <div id="eval-section" style="display:none; margin-top:16px;">
+        <div class="card">
+          <div class="ai-label">📊 Performance Report</div>
+          <div class="eval-scores" id="eval-scores"></div>
+          <div class="ai-box" id="eval-output"></div>
+        </div>
+        <button class="btn btn-ghost" onclick="endInterview()" style="margin-top:12px;">🔄 Start New Interview</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ROADMAP ── -->
+  <section class="section" id="section-roadmap">
+    <div class="section-header">
+      <h2>🗺 Job Role Roadmap</h2>
+      <p>Pick a career goal — AI builds your personalised step-by-step learning path</p>
+    </div>
+    <div class="card">
+      <div class="card-label">Popular roles</div>
+      <div class="chips" id="role-chips">
+        <span class="chip" onclick="selectRole(this,'Web Developer')">🌐 Web Developer</span>
+        <span class="chip" onclick="selectRole(this,'Data Scientist')">📊 Data Scientist</span>
+        <span class="chip" onclick="selectRole(this,'Machine Learning Engineer')">🤖 ML Engineer</span>
+        <span class="chip" onclick="selectRole(this,'DevOps Engineer')">⚙️ DevOps Engineer</span>
+        <span class="chip" onclick="selectRole(this,'Android Developer')">📱 Android Dev</span>
+        <span class="chip" onclick="selectRole(this,'UI UX Designer')">🎨 UI/UX Designer</span>
+        <span class="chip" onclick="selectRole(this,'Cybersecurity Analyst')">🔒 Cybersecurity</span>
+        <span class="chip" onclick="selectRole(this,'Cloud Architect')">☁️ Cloud Architect</span>
+        <span class="chip" onclick="selectRole(this,'Full Stack Developer')">💻 Full Stack Dev</span>
+        <span class="chip" onclick="selectRole(this,'Backend Developer')">🔧 Backend Dev</span>
+      </div>
+      <div class="row-flex" style="margin-top:14px;">
+        <input type="text" id="custom-role" placeholder="Or type any role you want..." class="text-input flex-1" />
+        <button class="btn btn-primary" onclick="generateRoadmap()" id="roadmap-btn">🗺 Generate Roadmap</button>
+      </div>
+    </div>
+
+    <div id="roadmap-result" style="display:none;">
+      <div class="card">
+        <div class="ai-label" id="roadmap-title">🗺 Your Roadmap</div>
+        <div id="roadmap-steps"></div>
+      </div>
+      <div class="card" style="margin-top:16px;">
+        <div class="ai-label">📚 Resources &amp; Tips</div>
+        <div class="ai-box" id="roadmap-tips"></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script src="/static/js/app.js"></script>
+</body>
+</html>
